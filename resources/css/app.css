@@ -1,0 +1,73 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+/*
+ | Neo-brutalism design tokens.
+ | Ciri utama: border hitam tebal, drop shadow keras tanpa blur, warna blok datar.
+ | Semua warna dan shadow di bawah ini dipakai lewat utility Tailwind
+ | (bg-paper, border-ink, shadow-brutal, dst).
+ */
+@theme {
+    --font-sans: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    --color-ink: #12100e;
+    --color-ink-soft: #57514a;
+    --color-paper: #fdf8ec;
+    --color-paper-dim: #f0e7d3;
+
+    --color-acid: #d8f34a;
+    --color-sun: #ffc93c;
+    --color-punch: #ff5c8a;
+    --color-wave: #74d7ff;
+    --color-mint: #7ce8b3;
+
+    --shadow-brutal-sm: 3px 3px 0 0 var(--color-ink);
+    --shadow-brutal: 6px 6px 0 0 var(--color-ink);
+    --shadow-brutal-lg: 10px 10px 0 0 var(--color-ink);
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        background-color: var(--color-paper);
+        color: var(--color-ink);
+        font-family: var(--font-sans);
+    }
+
+    ::selection {
+        background-color: var(--color-acid);
+        color: var(--color-ink);
+    }
+
+    :focus-visible {
+        outline: 3px solid var(--color-ink);
+        outline-offset: 3px;
+    }
+
+    textarea,
+    input,
+    select,
+    button {
+        font: inherit;
+        color: inherit;
+    }
+}
+
+/*
+ | Area kode memakai font mono; tab-size diset agar hasil formatter
+ | dengan indentasi tab terlihat konsisten di dalam textarea.
+ */
+@utility code-area {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    tab-size: 4;
+    white-space: pre;
+    overflow-wrap: normal;
+}
