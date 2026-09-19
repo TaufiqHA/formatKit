@@ -121,13 +121,40 @@ return [
             ],
         ],
         'html-formatter' => [
-            'name' => 'HTML Formatter',
+            'name' => 'HTML Formatter & Minifier',
             'short_name' => 'HTML Formatter',
             'tagline' => 'Rapikan markup HTML yang berantakan.',
             'description' => 'Format HTML online dengan indentasi konsisten, plus mode minify untuk produksi.',
             'category' => 'Format & Validasi',
             'keywords' => 'html, html formatter, html beautifier, minify html',
-            'status' => 'planned',
+            'status' => 'ready',
+            'view' => 'tools.html-formatter',
+            'script' => 'resources/js/tools/html-formatter.js',
+            'how_to' => [
+                'Tempel markup HTML ke panel <strong>Input</strong>, atau klik <strong>Contoh</strong> untuk mencoba data uji.',
+                'Klik <strong>Format</strong> untuk merapikan hierarki tag dengan indentasi 2 spasi, 4 spasi, atau tab.',
+                'Klik <strong>Minify</strong> untuk membuang spasi berlebih dan komentar HTML demi performa produksi.',
+                'Salin hasil lewat <strong>Salin hasil</strong> atau unduh sebagai berkas <code>.html</code>.',
+            ],
+            'faq' => [
+                ['q' => 'Apakah tag seperti <pre> dan <code> aman dari perubahan spasi?', 'a' => 'Ya. Elemen preformat seperti <pre>, <code>, <textarea>, serta blok <script> dan <style> dipreservasi tanpa merusak spasi aslinya.'],
+                ['q' => 'Apakah kode HTML saya dikirim ke server?', 'a' => 'Sama sekali tidak. Seluruh pemformatan dan minifikasi berlangsung 100% di browser Anda.'],
+                ['q' => 'Seberapa besar berkas HTML yang dapat diproses?', 'a' => 'Ribuan baris markup dapat diproses secara instan karena algoritma parsing berbasis token langsung di memori browser.'],
+            ],
+            'guide' => [
+                'title' => 'Panduan HTML Formatter: Kerapian Semantik DOM dan Optimasi Minifikasi',
+                'intro' => 'HyperText Markup Language (HTML) adalah kerangka dasar dokumen web. Struktur tag yang rapi mempermudah pemeliharaan kode dan aksesibilitas, sementara minifikasi penting untuk memangkas ukuran transfer data.',
+                'sections' => [
+                    [
+                        'heading' => 'Pentingnya Struktur Indentasi pada Hierarki DOM',
+                        'content' => 'Dokumen HTML yang kompleks dengan tag bersarang (nested tags) rentan mengalami kesalahan penutupan tag (*unclosed tags*). Indentasi visual yang konsisten memudahkan pendeteksian tag yang belum ditutup sebelum memicu galat tata letak pada browser.',
+                    ],
+                    [
+                        'heading' => 'Peran Minifikasi HTML terhadap Waktu Muat Halaman',
+                        'content' => 'Menghapus komentar dan karakter spasi ekstra di antara tag HTML mengurangi ukuran berkas transfer (*payload size*), mempercepat proses parser peramban dan mempercepat respons Time to First Byte (TTFB) serta First Contentful Paint (FCP).',
+                    ],
+                ],
+            ],
         ],
         'sql-formatter' => [
             'name' => 'SQL Formatter',
@@ -356,8 +383,36 @@ return [
             'tagline' => 'Baca header dan payload JWT.',
             'description' => 'Decode JWT dan lihat header, payload, serta waktu kedaluwarsa tanpa mengirim token ke server. Jangan pernah menempelkan token produksi ke tool yang menyimpan datanya.',
             'category' => 'Encode & Decode',
-            'keywords' => 'jwt, jwt decoder, json web token, decode jwt',
-            'status' => 'planned',
+            'keywords' => 'jwt, jwt decoder, json web token, decode jwt, jwt inspector',
+            'status' => 'ready',
+            'view' => 'tools.jwt-decoder',
+            'script' => 'resources/js/tools/jwt-decoder.js',
+            'how_to' => [
+                'Tempel token JWT ke panel <strong>Token JWT</strong>, atau gunakan <strong>Contoh</strong>.',
+                'Klik <strong>Decode JWT</strong>; token akan didekode secara otomatis.',
+                'Periksa bagian <strong>Header</strong> untuk melihat algoritma penandatanganan dan tipe token.',
+                'Periksa bagian <strong>Payload</strong> untuk data pengguna dan klaim waktu (waktu penerbitan <code>iat</code> dan kedaluwarsa <code>exp</code>).',
+                'Salin hasil atau unduh laporan sebagai berkas <code>.json</code>.',
+            ],
+            'faq' => [
+                ['q' => 'Apakah token JWT saya aman dan tidak bocor?', 'a' => 'Sangat aman. Dekode JWT di FormatKit berjalan sepenuhnya di JavaScript browser Anda tanpa pernah mengirimkan token ke server.'],
+                ['q' => 'Apakah tool ini memverifikasi signature kunci rahasia?', 'a' => 'Tool ini berfokus membaca dan mendekode payload serta klaim waktu secara aman di sisi klien. Verifikasi signature rahasia membutuhkan secret key yang sebaiknya tidak ditempel ke browser demi keamanan.'],
+                ['q' => 'Mengapa token saya dinyatakan telah kedaluwarsa?', 'a' => 'Jika klaim "exp" (expiration time) pada payload memiliki timestamp lebih kecil dari waktu jam saat ini, token secara standar telah kedaluwarsa.'],
+            ],
+            'guide' => [
+                'title' => 'Panduan JWT: Anatomi JSON Web Token (RFC 7519) dan Standar Klaim',
+                'intro' => 'JSON Web Token (JWT) adalah standar terbuka (RFC 7519) yang ringkas dan mandiri untuk mentransmisikan informasi secara aman antarpihak sebagai objek JSON.',
+                'sections' => [
+                    [
+                        'heading' => 'Tiga Bagian Utama dalam Struktur Token JWT',
+                        'content' => 'Token JWT terdiri dari tiga segmen yang dipisahkan oleh titik (<code>.</code>): <strong>Header</strong> (menjelaskan tipe token dan algoritma hash), <strong>Payload</strong> (berisi data klaim seperti identitas pengguna dan izin), serta <strong>Signature</strong> (tanda tangan kriptografis untuk integritas data).',
+                    ],
+                    [
+                        'heading' => 'Klaim Standar Waktu: exp, iat, dan nbf',
+                        'content' => 'Tiga klaim waktu paling penting dalam payload adalah: <code>iat</code> (*Issued At* / waktu diterbitkan), <code>exp</code> (*Expiration Time* / batas kedaluwarsa), dan <code>nbf</code> (*Not Before* / waktu mulai aktifnya token). Waktu disimpan dalam satuan detik Unix epoch.',
+                    ],
+                ],
+            ],
         ],
         'string-escape' => [
             'name' => 'String Escape / Unescape',
@@ -365,8 +420,34 @@ return [
             'tagline' => 'Escape string untuk JSON, JS, dan SQL.',
             'description' => 'Ubah string menjadi bentuk yang aman dipakai di dalam kode JSON, JavaScript, Java, atau SQL.',
             'category' => 'Encode & Decode',
-            'keywords' => 'escape string, unescape, escape json, escape sql',
-            'status' => 'planned',
+            'keywords' => 'escape string, unescape, escape json, escape sql, escape regex',
+            'status' => 'ready',
+            'view' => 'tools.string-escape',
+            'script' => 'resources/js/tools/string-escape.js',
+            'how_to' => [
+                'Tempel teks ke panel <strong>Teks / String</strong>.',
+                'Pilih target bahasa/format pada dropdown <strong>Target / Bahasa</strong> (JSON/JS, SQL, HTML, Java/C#, atau RegEx).',
+                'Klik <strong>Escape</strong> untuk menyematkan karakter escape (seperti <code>\\"</code> atau <code>\\n</code>), atau <strong>Unescape</strong> untuk mengembalikannya ke teks biasa.',
+                'Salin hasil modifikasi atau unduh sebagai berkas teks.',
+            ],
+            'faq' => [
+                ['q' => 'Apa bedanya escape SQL dan JSON?', 'a' => 'Dalam SQL, karakter berbahaya utama adalah tanda kutip tunggal (\') yang di-escape menjadi dua kutip tunggal (\'\') atau backslash-kutip (\\\'). Dalam JSON, tanda kutip ganda (") dan karakter kontrol baris baru yang wajib di-escape.'],
+                ['q' => 'Apakah teks saya dikirim ke server?', 'a' => 'Tidak. Semua fungsi substitusi regex dan escape dijalankan langsung di browser lokal Anda.'],
+            ],
+            'guide' => [
+                'title' => 'Panduan String Escape: Menghindari Injection dan Menjaga Integritas Sintaks',
+                'intro' => 'Karakter escape digunakan untuk menyisipkan karakter khusus atau karakter kontrol ke dalam literal string tanpa merusak tata bahasa bahasa pemrograman atau memicu celah injeksi.',
+                'sections' => [
+                    [
+                        'heading' => 'Pencegahan SQL Injection dan Kesalahan Query',
+                        'content' => 'Saat string disematkan ke dalam string literal basis data, tanda kutip tunggal tanpa escape dapat menutup string lebih awal dan mengeksekusi instruksi arbitrer. Escaping menggandakan tanda kutip tunggal agar mesin SQL memperlakukannya murni sebagai data tekstual.',
+                    ],
+                    [
+                        'heading' => 'Penanganan Karakter Kontrol pada JSON dan JavaScript',
+                        'content' => 'Standar JSON melarang karakter kontrol mentah (seperti enter langsung atau tab fisik) di dalam string. Nilai-nilai ini wajib di-escape menjadi representasi urutan dua karakter seperti <code>\\n</code> dan <code>\\t</code>.',
+                    ],
+                ],
+            ],
         ],
 
         'hash-generator' => [
@@ -412,8 +493,35 @@ return [
             'tagline' => 'Hitung tanda tangan HMAC dengan kunci rahasia.',
             'description' => 'Buat HMAC berbasis SHA-256 dan SHA-512 dari pesan dan kunci rahasia, diproses sepenuhnya di browser.',
             'category' => 'Hash & Generator',
-            'keywords' => 'hmac, hmac generator, signature, webhook signature',
-            'status' => 'planned',
+            'keywords' => 'hmac, hmac generator, signature, webhook signature, hmac sha256',
+            'status' => 'ready',
+            'view' => 'tools.hmac-generator',
+            'script' => 'resources/js/tools/hmac-generator.js',
+            'how_to' => [
+                'Tempel pesan atau payload HTTP request ke panel <strong>Pesan</strong>.',
+                'Ketik kunci rahasia pada kolom <strong>Kunci Rahasia (Secret)</strong>.',
+                'Pilih algoritma hash (SHA-256, SHA-512, SHA-384, SHA-1) dan format hasil (Hex atau Base64).',
+                'Klik <strong>Hitung HMAC</strong> untuk menghasilkan tanda tangan kriptografis.',
+                'Salin nilai signature untuk memvalidasi webhook atau integrasi API.',
+            ],
+            'faq' => [
+                ['q' => 'Apakah kunci rahasia saya aman?', 'a' => 'Ya. Kunci rahasia Anda tidak pernah dikirim ke jaringan mana pun; perhitungan HMAC dilakukan oleh Web Crypto API bawaan browser Anda.'],
+                ['q' => 'Kapan sebaiknya memakai format Base64 dibanding Hex?', 'a' => 'Banyak webhook API (seperti Stripe atau GitHub) mengirim signature dalam format hex, sedangkan sistem otentikasi AWS atau Google Cloud sering mensyaratkan Base64. Anda dapat memilih keduanya sesuai kebutuhan.'],
+            ],
+            'guide' => [
+                'title' => 'Panduan HMAC: Hash-based Message Authentication Code (RFC 2104)',
+                'intro' => 'HMAC adalah mekanisme autentikasi pesan berbasis kriptografi yang memadukan fungsi hash satu arah dengan kunci rahasia bersama guna memastikan keaslian sumber dan integritas data.',
+                'sections' => [
+                    [
+                        'heading' => 'Perbedaan Hash Biasa dengan HMAC',
+                        'content' => 'Hash biasa (seperti SHA-256 murni) hanya membuktikan bahwa data belum termodifikasi, tetapi tidak membuktikan siapa pembuatnya. HMAC menyertakan kunci rahasia bersama (*secret key*) sehingga pihak penerima dapat memverifikasi bahwa pengirim benar-benar memegang kunci rahasia yang sah.',
+                    ],
+                    [
+                        'heading' => 'Penerapan HMAC pada Verifikasi Webhook',
+                        'content' => 'Penyedia layanan pembayaran dan platform cloud mengirim header signature pada setiap notifikasi webhook. Server penerima menghitung ulang HMAC dari body pesan menggunakan kunci rahasia yang sama; jika hasil signature identik, webhook dipastikan valid dan bebas dari serangan pemalsuan request (*tampering*).',
+                    ],
+                ],
+            ],
         ],
         'uuid-generator' => [
             'name' => 'UUID / GUID Generator',
@@ -453,13 +561,40 @@ return [
             ],
         ],
         'cron-generator' => [
-            'name' => 'Cron Expression Generator',
+            'name' => 'Cron Expression Generator & Parser',
             'short_name' => 'Cron Generator',
             'tagline' => 'Susun ekspresi cron dan baca artinya.',
-            'description' => 'Buat dan uji ekspresi cron, lengkap dengan penjelasan waktu jalan dalam bahasa manusia.',
+            'description' => 'Buat dan uji ekspresi cron, lengkap dengan penjelasan waktu jalan dalam bahasa manusia dan 5 jadwal eksekusi berikutnya.',
             'category' => 'Hash & Generator',
-            'keywords' => 'cron, cron expression, cron generator, crontab, quartz',
-            'status' => 'planned',
+            'keywords' => 'cron, cron expression, cron generator, crontab, quartz, jadwal cron',
+            'status' => 'ready',
+            'view' => 'tools.cron-generator',
+            'script' => 'resources/js/tools/cron-generator.js',
+            'how_to' => [
+                'Ketik 5 bagian ekspresi cron (misal: <code>*/15 * * * *</code> atau <code>0 9 * * 1-5</code>), atau pilih pola dari dropdown <strong>Pilihan Preset</strong>.',
+                'Klik <strong>Periksa Cron</strong> untuk menguji validitas ekspresi.',
+                'Baca arti jadwal dalam kalimat bahasa Indonesia yang mudah dipahami pada panel hasil.',
+                'Lihat daftar <strong>5 Waktu Eksekusi Berikutnya</strong> yang disesuaikan dengan zona waktu lokal (WIB).',
+                'Salin ekspresi atau simpan daftar jadwal ke berkas teks.',
+            ],
+            'faq' => [
+                ['q' => 'Apa urutan 5 bagian pada ekspresi cron?', 'a' => 'Secara berurutan dari kiri ke kanan: 1) Menit (0–59), 2) Jam (0–23), 3) Tanggal dalam bulan (1–31), 4) Bulan (1–12), dan 5) Hari dalam seminggu (0–6 atau 1–7, dengan 0 dan 7 melambangkan hari Minggu).'],
+                ['q' => 'Apa arti simbol tanda bintang (*) dan garis miring (/) pada cron?', 'a' => 'Tanda bintang (*) berarti "setiap nilai yang memungkinkan". Garis miring (/) berarti "setiap kelipatan / interval tertentu", misalnya "*/10" pada kolom menit berarti setiap 10 menit.'],
+            ],
+            'guide' => [
+                'title' => 'Panduan Ekspresi Cron: Sintaks Crontab Standar Linux dan Penjadwalan Tugas',
+                'intro' => 'Ekspresi cron adalah barisan karakter ringkas yang mendefinisikan jadwal otomatisasi tugas berulang (*scheduled cron jobs*) pada sistem operasi Unix/Linux dan framework backend seperti Laravel Scheduler.',
+                'sections' => [
+                    [
+                        'heading' => 'Struktur Kolom Standar dan Rentang Nilai',
+                        'content' => 'Format standar terdiri atas lima kolom yang dipisahkan spasi: <strong>Menit</strong> (0–59), <strong>Jam</strong> (0–23), <strong>Hari-Bulan</strong> (1–31), <strong>Bulan</strong> (1–12), dan <strong>Hari-Minggu</strong> (0–6 atau 1–7). Simbol koma (<code>,</code>) digunakan untuk daftar nilai (misal: <code>1,15</code>), dan tanda hubung (<code>-</code>) untuk rentang waktu berurutan (misal: <code>1-5</code> untuk Senin hingga Jumat).',
+                    ],
+                    [
+                        'heading' => 'Integrasi Cron Job dengan Laravel Task Scheduling',
+                        'content' => 'Di Laravel, penjadwalan tugas didefinisikan secara ekspresif pada berkas <code>routes/console.php</code> (misal: <code>Schedule::command(...)->cron(\'*/15 * * * *\')</code>). Pemahaman ekspresi cron sangat penting agar perintah latar belakang dieksekusi tepat pada waktu yang direncanakan.',
+                    ],
+                ],
+            ],
         ],
 
         'csv-to-json' => [

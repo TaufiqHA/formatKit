@@ -109,3 +109,35 @@ it('renders phase 3 tools with their specialized controls', function () {
         ->assertSee('data-flag="g"', false)
         ->assertSee('Uji Regex');
 });
+
+it('renders category A, B, and C tools with their specialized controls', function () {
+    $this->get('/html-formatter')
+        ->assertOk()
+        ->assertSee('Kode HTML')
+        ->assertSee('Hasil HTML')
+        ->assertSee('Format')
+        ->assertSee('Minify');
+
+    $this->get('/jwt-decoder')
+        ->assertOk()
+        ->assertSee('Token JWT')
+        ->assertSee('Decode JWT');
+
+    $this->get('/string-escape')
+        ->assertOk()
+        ->assertSee('Escape')
+        ->assertSee('Unescape')
+        ->assertSee('Target / Bahasa');
+
+    $this->get('/hmac-generator')
+        ->assertOk()
+        ->assertSee('Hitung HMAC')
+        ->assertSee('Kunci Rahasia')
+        ->assertSee('HMAC-SHA256');
+
+    $this->get('/cron-generator')
+        ->assertOk()
+        ->assertSee('Periksa Cron')
+        ->assertSee('Pilihan Preset')
+        ->assertSee('Ekspresi Cron');
+});

@@ -7,8 +7,8 @@ Dokumen ini mencatat inventaris seluruh tool yang ada pada FormatKit, mencakup s
 ## 1. Ringkasan Status
 
 - **Total Tools Terdaftar di Katalog (`config/tools.php`):** 26 Tools
-- **Sudah Selesai (`ready`):** 13 Tools (100% MVP Fase 1 + 100% Fase 2 Inti)
-- **Belum Dibuat (`planned`):** 13 Tools (Tampil di navigasi dengan status/badge "segera", belum ada implementasi view & script)
+- **Sudah Selesai (`ready`):** 18 Tools (100% MVP Fase 1 + Fase 2 Inti + Tools Kategori A, B, C)
+- **Belum Dibuat (`planned`):** 8 Tools (Tampil di navigasi dengan status/badge "segera", belum ada implementasi view & script)
 
 ---
 
@@ -20,44 +20,28 @@ Semua tool di bawah ini telah memiliki route aktif, template Blade di `resources
 |---|---|---|---|---|
 | 1 | **JSON Formatter & Validator** | `json-formatter` | Format & Validasi | Format, validasi, minify, dan sorting key JSON |
 | 2 | **XML Formatter & Validator** | `xml-formatter` | Format & Validasi | Format, cek keseimbangan tag, dan minify XML |
-| 3 | **SQL Formatter** | `sql-formatter` | Format & Validasi | Format klausa SQL, ubah casing kata kunci, dan minify |
-| 4 | **CSS Formatter & Minifier** | `css-formatter` | Format & Validasi | Format indentasi dan minify stylesheet CSS |
-| 5 | **JavaScript Formatter & Minifier** | `javascript-formatter` | Format & Validasi | Format sintaks, validasi AST aman, dan minify JS |
-| 6 | **Base64 Encode / Decode** | `base64` | Encode & Decode | Konversi teks ⇄ Base64 dengan mode URL-safe & UTF-8 |
-| 7 | **URL Encode / Decode** | `url-encoder` | Encode & Decode | Percent-encoding URL & query string parameter |
-| 8 | **HTML Entity Encode / Decode** | `html-entities` | Encode & Decode | Konversi karakter khusus ke entitas bernama/numerik |
-| 9 | **Hash Generator** | `hash-generator` | Hash & Generator | Checksum MD5, SHA-1, SHA-256, SHA-512 (teks & file) |
-| 10 | **UUID / GUID Generator** | `uuid-generator` | Hash & Generator | Pembuat UUID v4 (random) dan v7 (time-ordered) bulk |
-| 11 | **CSV ⇄ JSON Converter** | `csv-to-json` | Konversi Data | Konversi dua arah CSV ⇄ JSON standar RFC 4180 |
-| 12 | **Penghitung Kata & Case Converter** | `word-counter` | Teks & Utilitas | Statistik kata/karakter & konversi camelCase, kebab-case, dll |
-| 13 | **Regex Tester & Matcher** | `regex-tester` | Teks & Utilitas | Uji ekspresi reguler, capture groups, dan penggantian teks |
+| 3 | **HTML Formatter & Minifier** | `html-formatter` | Format & Validasi | Format hierarki markup HTML & pemadatan whitespace/komentar |
+| 4 | **SQL Formatter** | `sql-formatter` | Format & Validasi | Format klausa SQL, ubah casing kata kunci, dan minify |
+| 5 | **CSS Formatter & Minifier** | `css-formatter` | Format & Validasi | Format indentasi dan minify stylesheet CSS |
+| 6 | **JavaScript Formatter & Minifier** | `javascript-formatter` | Format & Validasi | Format sintaks, validasi AST aman, dan minify JS |
+| 7 | **Base64 Encode / Decode** | `base64` | Encode & Decode | Konversi teks ⇄ Base64 dengan mode URL-safe & UTF-8 |
+| 8 | **URL Encode / Decode** | `url-encoder` | Encode & Decode | Percent-encoding URL & query string parameter |
+| 9 | **HTML Entity Encode / Decode** | `html-entities` | Encode & Decode | Konversi karakter khusus ke entitas bernama/numerik |
+| 10 | **JWT Decoder** | `jwt-decoder` | Encode & Decode | Decode token JWT (header, payload, status kedaluwarsa) lokal |
+| 11 | **String Escape / Unescape** | `string-escape` | Encode & Decode | Escape/unescape string untuk JSON, SQL, HTML, Java, & RegEx |
+| 12 | **Hash Generator** | `hash-generator` | Hash & Generator | Checksum MD5, SHA-1, SHA-256, SHA-512 (teks & file) |
+| 13 | **HMAC Generator** | `hmac-generator` | Hash & Generator | Hitung signature HMAC (SHA-256, SHA-512) dengan Web Crypto |
+| 14 | **UUID / GUID Generator** | `uuid-generator` | Hash & Generator | Pembuat UUID v4 (random) dan v7 (time-ordered) bulk |
+| 15 | **Cron Expression Generator** | `cron-generator` | Hash & Generator | Generator ekspresi cron, arti bahasa Indonesia & jadwal berikutnya |
+| 16 | **CSV ⇄ JSON Converter** | `csv-to-json` | Konversi Data | Konversi dua arah CSV ⇄ JSON standar RFC 4180 |
+| 17 | **Penghitung Kata & Case Converter** | `word-counter` | Teks & Utilitas | Statistik kata/karakter & konversi camelCase, kebab-case, dll |
+| 18 | **Regex Tester & Matcher** | `regex-tester` | Teks & Utilitas | Uji ekspresi reguler, capture groups, dan penggantian teks |
 
 ---
 
 ## 3. Tools yang Belum Dibuat (`planned`)
 
-Berikut adalah 13 tools yang sudah masuk ke katalog konfigurasi [`config/tools.php`](file:///home/padikering/Documents/KERJA/formatKit/config/tools.php) namun belum memiliki halaman dan logika skrip:
-
-### A. Format & Validasi
-* **HTML Formatter** (`html-formatter`)
-  * **Tagline:** Rapikan markup HTML yang berantakan.
-  * **Deskripsi:** Format HTML online dengan indentasi konsisten dan mode minifikasi untuk produksi.
-
-### B. Encode & Decode
-* **JWT Decoder** (`jwt-decoder`)
-  * **Tagline:** Baca header dan payload JWT.
-  * **Deskripsi:** Decode token JSON Web Token untuk melihat header, payload, klausa waktu kedaluwarsa tanpa mengirim token ke server.
-* **String Escape / Unescape** (`string-escape`)
-  * **Tagline:** Escape string untuk JSON, JS, dan SQL.
-  * **Deskripsi:** Mengubah karakter string mentah menjadi representasi escape yang aman disematkan pada kode pemrograman.
-
-### C. Hash & Generator
-* **HMAC Generator** (`hmac-generator`)
-  * **Tagline:** Hitung tanda tangan HMAC dengan kunci rahasia.
-  * **Deskripsi:** Buat signature HMAC berbasis SHA-256 dan SHA-512 untuk validasi webhook atau request API.
-* **Cron Expression Generator** (`cron-generator`)
-  * **Tagline:** Susun ekspresi cron dan baca artinya.
-  * **Deskripsi:** Generator visual ekspresi cron (Linux crontab / Quartz) dengan penjelasan jadwal dalam bahasa manusia.
+Berikut adalah 8 tools yang tersisa di katalog konfigurasi [`config/tools.php`](file:///home/padikering/Documents/KERJA/formatKit/config/tools.php) yang masih menunggu implementasi:
 
 ### D. Konversi Data
 * **JSON ke YAML / YAML ke JSON** (`json-to-yaml`)

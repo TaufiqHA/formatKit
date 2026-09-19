@@ -22,6 +22,11 @@ export default defineConfig({
                 'resources/js/tools/csv-to-json.js',
                 'resources/js/tools/word-counter.js',
                 'resources/js/tools/regex-tester.js',
+                'resources/js/tools/html-formatter.js',
+                'resources/js/tools/jwt-decoder.js',
+                'resources/js/tools/string-escape.js',
+                'resources/js/tools/hmac-generator.js',
+                'resources/js/tools/cron-generator.js',
             ],
             refresh: true,
             fonts: [
