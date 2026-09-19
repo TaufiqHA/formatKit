@@ -1,7 +1,6 @@
 @php
     $links = [
         ['label' => 'Semua tool', 'href' => route('home').'#daftar-tool'],
-        ['label' => 'Kenapa kami', 'href' => route('home').'#kenapa'],
         ['label' => 'Roadmap', 'href' => route('home').'#roadmap'],
     ];
 @endphp

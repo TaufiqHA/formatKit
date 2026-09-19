@@ -5,25 +5,67 @@
     $accent = $catalog->accentFor($tool['category']);
     $howTo = $tool['how_to'] ?? [];
     $faq = $tool['faq'] ?? [];
+    $guide = $tool['guide'] ?? null;
+
+    // Susun Schema.org JSON-LD multi-entitas (SoftwareApplication, BreadcrumbList, FAQPage)
+    $schemas = [
+        [
+            '@type' => 'SoftwareApplication',
+            'name' => $tool['name'],
+            'applicationCategory' => 'DeveloperApplication',
+            'operatingSystem' => 'Web',
+            'description' => $tool['description'],
+            'url' => route('tools.'.$tool['slug']),
+            'offers' => [
+                '@type' => 'Offer',
+                'price' => '0',
+                'priceCurrency' => 'IDR',
+            ],
+        ],
+        [
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
+                [
+                    '@type' => 'ListItem',
+                    'position' => 1,
+                    'name' => 'Beranda',
+                    'item' => route('home'),
+                ],
+                [
+                    '@type' => 'ListItem',
+                    'position' => 2,
+                    'name' => $tool['short_name'],
+                    'item' => route('tools.'.$tool['slug']),
+                ],
+            ],
+        ],
+    ];
+
+    if ($faq !== []) {
+        $schemas[] = [
+            '@type' => 'FAQPage',
+            'mainEntity' => array_map(fn ($item) => [
+                '@type' => 'Question',
+                'name' => $item['q'],
+                'acceptedAnswer' => [
+                    '@type' => 'Answer',
+                    'text' => $item['a'],
+                ],
+            ], $faq),
+        ];
+    }
+
+    $schemaData = [
+        '@context' => 'https://schema.org',
+        '@graph' => $schemas,
+    ];
 @endphp
 
 <x-layout :title="$tool['name']"
           :description="$tool['description']"
+          :keywords="$tool['keywords'] ?? null"
           :tool="$tool"
-          :schema="[
-              '@context' => 'https://schema.org',
-              '@type' => 'SoftwareApplication',
-              'name' => $tool['name'],
-              'applicationCategory' => 'DeveloperApplication',
-              'operatingSystem' => 'Web',
-              'description' => $tool['description'],
-              'url' => route('tools.'.$tool['slug']),
-              'offers' => [
-                  '@type' => 'Offer',
-                  'price' => '0',
-                  'priceCurrency' => 'IDR',
-              ],
-          ]">
+          :schema="$schemaData">
     <nav aria-label="Breadcrumb" class="font-mono text-xs font-bold uppercase tracking-widest">
         <a href="{{ route('home') }}" class="hover:bg-acid">Beranda</a>
         <span aria-hidden="true">/</span>
@@ -86,6 +128,34 @@
             </section>
         @endif
     </div>
+
+    @if ($guide)
+        <article class="mt-8 border-3 border-ink bg-white p-6 shadow-brutal">
+            <div class="border-b-3 border-ink pb-4">
+                <span class="inline-flex items-center gap-1.5 border-2 border-ink bg-sun px-2 py-0.5 font-mono text-xs font-bold uppercase">
+                    Panduan & Penjelasan Teknis
+                </span>
+                <h2 class="mt-2 text-2xl font-bold">{{ $guide['title'] }}</h2>
+            </div>
+
+            <div class="mt-5 flex flex-col gap-6 text-sm leading-relaxed text-ink-soft">
+                @if (!empty($guide['intro']))
+                    <p class="text-base font-medium text-ink">{{ $guide['intro'] }}</p>
+                @endif
+
+                @if (!empty($guide['sections']))
+                    @foreach ($guide['sections'] as $sec)
+                        <section class="border-t-2 border-paper-dim pt-4">
+                            <h3 class="text-base font-bold text-ink">{{ $sec['heading'] }}</h3>
+                            <div class="mt-2 text-sm leading-relaxed text-ink-soft">
+                                {!! $sec['content'] !!}
+                            </div>
+                        </section>
+                    @endforeach
+                @endif
+            </div>
+        </article>
+    @endif
 
     @if ($faq !== [])
         <section class="mt-8 border-3 border-ink bg-paper-dim p-5">

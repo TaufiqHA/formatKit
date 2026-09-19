@@ -6,7 +6,7 @@
     'description' => 'Kumpulan tool developer yang cepat, ringan, dan memproses data di browser.',
 ]">
     <section class="border-3 border-ink bg-white p-6 shadow-brutal-lg lg:p-10">
-        <x-ui.badge accent="sun">MVP — 7 tool inti sudah jalan</x-ui.badge>
+        <x-ui.badge accent="sun">100% Gratis &amp; Berjalan di Browser</x-ui.badge>
 
         <h1 class="mt-4 max-w-3xl text-4xl font-bold leading-[1.05] tracking-tight lg:text-6xl">
             Tool developer yang rapi,
@@ -31,7 +31,7 @@
         <dl class="mt-8 grid gap-4 sm:grid-cols-3">
             @foreach ([
                 ['label' => 'Tool siap dipakai', 'value' => $catalog->readyCount()],
-                ['label' => 'Dalam antrean', 'value' => $catalog->plannedCount()],
+                ['label' => 'Segera hadir', 'value' => $catalog->plannedCount()],
                 ['label' => 'Diproses di browser', 'value' => '100%'],
             ] as $stat)
                 <div class="border-3 border-ink bg-paper p-4 shadow-brutal-sm">
@@ -47,7 +47,7 @@
             <div>
                 <h2 class="text-2xl font-bold">Semua tool</h2>
                 <p class="mt-1 text-sm text-ink-soft">
-                    Tool dengan label <strong>Segera</strong> belum punya halaman — masuk antrean pengembangan.
+                    Tool dengan label <strong>Segera</strong> sedang dipersiapkan dan akan hadir pada pembaruan mendatang.
                 </p>
             </div>
 
@@ -84,43 +84,10 @@
         @endforeach
     </section>
 
-    <section id="kenapa" class="mt-12 scroll-mt-24">
-        <h2 class="text-2xl font-bold">Kenapa dibuat berbeda</h2>
-
-        <div class="mt-4 grid gap-5 md:grid-cols-3">
-            <article class="border-3 border-ink bg-white p-5 shadow-brutal">
-                <x-ui.badge accent="mint">Privasi</x-ui.badge>
-                <h3 class="mt-3 text-lg font-bold">Tidak ada data yang disimpan</h3>
-                <p class="mt-2 text-sm text-ink-soft">
-                    Tool populer menyimpan input Anda di server dan membuat link yang bisa diprediksi,
-                    sehingga crawler bisa memanennya. Kami tidak menyimpan apa pun.
-                </p>
-            </article>
-
-            <article class="border-3 border-ink bg-white p-5 shadow-brutal">
-                <x-ui.badge accent="wave">Kecepatan</x-ui.badge>
-                <h3 class="mt-3 text-lg font-bold">Ringan sejak awal</h3>
-                <p class="mt-2 text-sm text-ink-soft">
-                    Library dimuat per tool, bukan sekaligus. Halaman tetap kecil dan responsif,
-                    bahkan saat dibuka dari koneksi seluler.
-                </p>
-            </article>
-
-            <article class="border-3 border-ink bg-white p-5 shadow-brutal">
-                <x-ui.badge accent="punch">Bahasa</x-ui.badge>
-                <h3 class="mt-3 text-lg font-bold">Bahasa Indonesia</h3>
-                <p class="mt-2 text-sm text-ink-soft">
-                    Penjelasan, pesan error, dan data referensi dalam bahasa Indonesia — termasuk
-                    daftar wilayah dan kode pos yang sering dicari developer lokal.
-                </p>
-            </article>
-        </div>
-    </section>
-
     <section id="roadmap" class="mt-12 scroll-mt-24 border-3 border-ink bg-paper-dim p-6 shadow-brutal">
         <h2 class="text-2xl font-bold">Roadmap</h2>
         <p class="mt-1 text-sm text-ink-soft">
-            Urutan pengerjaan mengikuti kesulitan kata kunci dan kebutuhan pengguna (lihat dokumen analisis kompetitor).
+            Daftar utilitas dan fitur tambahan yang sedang disiapkan untuk pembaruan berikutnya.
         </p>
 
         <div class="mt-5 grid gap-5 md:grid-cols-2">

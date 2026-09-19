@@ -3,14 +3,17 @@ import { createTool } from './_shared.js';
 
 const SAMPLE = JSON.stringify(
     {
-        project: 'FormatKit',
-        fase: 2,
-        privat: true,
-        tools: [
-            { slug: 'json-formatter', status: 'ready' },
-            { slug: 'base64', status: 'ready' },
-        ],
-        meta: { build: 2, penulis: ['Taufiq'] },
+        nama: 'Aplikasi Web',
+        versi: '1.2.0',
+        aktif: true,
+        pengaturan: {
+            tema: 'gelap',
+            bahasa: 'id',
+            notifikasi: false,
+        },
+        fitur: ['validasi', 'formatting', 'konversi'],
+        pengguna_maksimal: 500,
+        metadata: null,
     },
     null,
     2,

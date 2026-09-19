@@ -27,6 +27,6 @@
             <span aria-hidden="true">→</span>
         </x-ui.button>
     @else
-        <span class="self-start border-2 border-dashed border-ink px-3 py-1.5 font-mono text-xs uppercase">Dalam antrean</span>
+        <span class="self-start border-2 border-dashed border-ink px-3 py-1.5 font-mono text-xs uppercase">Segera Hadir</span>
     @endif
 </article>

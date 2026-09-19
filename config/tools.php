@@ -64,6 +64,24 @@ return [
                 ['q' => 'Penyebab error JSON yang paling sering apa?', 'a' => 'Koma berlebih di akhir objek atau array, tanda kutip tunggal, komentar, dan kunci tanpa tanda kutip — ketiganya tidak diizinkan dalam JSON yang sah.'],
                 ['q' => 'Berapa besar berkas JSON yang bisa diproses?', 'a' => 'Beberapa megabyte masih nyaman. Karena diproses di sisi klien, kecepatannya bergantung pada perangkat Anda.'],
             ],
+            'guide' => [
+                'title' => 'Panduan Lengkap JSON: Standar RFC 8259 dan Praktik Terbaik',
+                'intro' => 'JSON (JavaScript Object Notation) adalah format pertukaran data standar terbuka berbasis teks yang bersifat ringan, independen dari bahasa pemrograman, dan mudah dibaca oleh manusia maupun mesin.',
+                'sections' => [
+                    [
+                        'heading' => 'Struktur dan Tipe Data yang Sah dalam JSON',
+                        'content' => 'Sesuai spesifikasi resmi <code>RFC 8259</code>, JSON hanya mendukung 6 tipe data dasar: <strong>String</strong> (harus dibungkus tanda kutip ganda <code>"..."</code>), <strong>Number</strong> (integer atau floating point tanpa koma desimal), <strong>Boolean</strong> (<code>true</code> atau <code>false</code> huruf kecil), <strong>Null</strong> (<code>null</code>), <strong>Array</strong> (urutan nilai dalam <code>[...]</code>), dan <strong>Object</strong> (koleksi pasangan kunci-nilai dalam <code>{...}</code>).',
+                    ],
+                    [
+                        'heading' => 'Perbedaan Utama JSON dengan Objek JavaScript Biasa',
+                        'content' => 'Banyak pengembang menganggap JSON identik dengan literal objek JavaScript. Kenyataannya, JSON jauh lebih ketat: nama kunci (key) wajib dibungkus tanda kutip ganda (tidak boleh kutip tunggal atau tanpa kutip), tidak mendukung komentar (<code>//</code> atau <code>/* */</code>), tidak boleh ada fungsi, dan dilarang menyertakan <em>trailing comma</em> (koma di akhir elemen).',
+                    ],
+                    [
+                        'heading' => 'Penyebab Umum JSON Parse Error',
+                        'content' => 'Tiga kesalahan paling sering saat memvalidasi JSON adalah: <strong>1) Trailing Comma</strong>, misalnya <code>{"a": 1,}</code>; <strong>2) Kutip Tunggal</strong>, misalnya <code>{\'nama\': \'budi\'}</code>; dan <strong>3) Karakter Kontrol</strong> tanpa escape seperti tab atau baris baru di dalam nilai string literal.',
+                    ],
+                ],
+            ],
         ],
         'xml-formatter' => [
             'name' => 'XML Formatter & Validator',
@@ -87,6 +105,20 @@ return [
                 ['q' => 'Berapa besar XML yang bisa diproses?', 'a' => 'Beberapa megabyte masih nyaman. Karena diproses di browser, kecepatannya bergantung pada perangkat Anda.'],
                 ['q' => 'Apakah XML saya dikirim ke server?', 'a' => 'Tidak. Tidak ada request yang membawa isi input Anda.'],
             ],
+            'guide' => [
+                'title' => 'Panduan XML: Dokumen Well-Formed, Validasi, dan Struktur Data',
+                'intro' => 'XML (Extensible Markup Language) adalah bahasa markup yang dirancang untuk menyimpan dan mentransportasikan data terstruktur dengan fokus pada kesederhanaan, keterbacaan, dan interoperabilitas.',
+                'sections' => [
+                    [
+                        'heading' => 'Perbedaan Dokumen Well-Formed dan Valid',
+                        'content' => 'Sebuah dokumen XML disebut <strong>Well-Formed</strong> jika mematuhi sintaks dasar XML: memiliki tepat satu elemen akar (root element), semua tag pembuka memiliki tag penutup yang berpasangan dan bersarang rapi, nama elemen peka huruf besar-kecil (case-sensitive), dan semua nilai atribut diapit tanda kutip. Dokumen disebut <strong>Valid</strong> jika selain well-formed, ia juga mematuhi skema DTD atau XSD yang ditentukan.',
+                    ],
+                    [
+                        'heading' => 'Penanganan Karakter Khusus dan CDATA',
+                        'content' => 'Dalam XML, lima karakter khusus harus di-escape agar tidak mengacaukan parser: <code>&lt;</code> (&amp;lt;), <code>&gt;</code> (&amp;gt;), <code>&amp;</code> (&amp;amp;), <code>"</code> (&amp;quot;), dan <code>\'</code> (&amp;apos;). Jika Anda perlu memasukkan teks besar yang sarat karakter markup (seperti potongan skrip atau kode HTML), gunakan blok <code>&lt;![CDATA[ ... ]]&gt;</code>.',
+                    ],
+                ],
+            ],
         ],
         'html-formatter' => [
             'name' => 'HTML Formatter',
@@ -101,10 +133,37 @@ return [
             'name' => 'SQL Formatter',
             'short_name' => 'SQL Formatter',
             'tagline' => 'Bikin query panjang terbaca lagi.',
-            'description' => 'Format query SQL dengan pilihan dialek (MySQL, PostgreSQL, SQL Server) dan indentasi yang bisa diatur.',
+            'description' => 'Format query SQL dengan pilihan kapitalisasi kata kunci dan indentasi yang bisa diatur.',
             'category' => 'Format & Validasi',
-            'keywords' => 'sql, sql formatter, query formatter, beautify sql',
-            'status' => 'planned',
+            'keywords' => 'sql, sql formatter, query formatter, beautify sql, minify sql',
+            'status' => 'ready',
+            'view' => 'tools.sql-formatter',
+            'script' => 'resources/js/tools/sql-formatter.js',
+            'how_to' => [
+                'Tempel kueri SQL ke panel <strong>Query SQL</strong>, atau klik <strong>Contoh</strong> untuk mencoba kueri uji.',
+                'Klik <strong>Format</strong> untuk merapikan klausa, atau <strong>Minify</strong> untuk memadatkan menjadi satu baris.',
+                'Atur opsi <strong>Indentasi</strong> (2 spasi, 4 spasi, atau tab) dan <strong>Kata Kunci</strong> (HURUF BESAR, huruf kecil, atau biarkan aslinya).',
+                'Salin hasil query lewat <strong>Salin hasil</strong> atau unduh sebagai berkas <code>.sql</code>.',
+            ],
+            'faq' => [
+                ['q' => 'Apakah query SQL saya dikirim ke server?', 'a' => 'Tidak. Pemformatan dijalankan 100% di browser Anda, sehingga skema database dan data rahasia Anda tetap aman.'],
+                ['q' => 'Dialek database apa saja yang didukung?', 'a' => 'Standar ANSI SQL, MySQL, PostgreSQL, SQLite, dan MariaDB didukung untuk klausa umum seperti SELECT, INSERT, UPDATE, DELETE, JOIN, dan subquery.'],
+                ['q' => 'Apakah komentar SQL dipertahankan saat diformat?', 'a' => 'Ya. Komentar satu baris (-- atau #) dan komentar blok (/* */) tetap dipertahankan saat menggunakan fungsi Format.'],
+            ],
+            'guide' => [
+                'title' => 'Panduan SQL Formatter: Kerapian Kueri dan Standar Basis Data',
+                'intro' => 'Structured Query Language (SQL) adalah bahasa standar untuk berinteraksi dengan sistem manajemen basis data relasional (RDBMS) seperti MySQL, PostgreSQL, MariaDB, SQLite, dan SQL Server.',
+                'sections' => [
+                    [
+                        'heading' => 'Mengapa Format Kueri SQL Sangat Krusial?',
+                        'content' => 'Kueri SQL yang panjang dan berantakan sering kali menyembunyikan kesalahan logika fatal, seperti kondisi <code>WHERE</code> yang salah kurung, klausul <code>JOIN</code> tanpa kondisi <code>ON</code> yang memicu perkalian Cartesian, atau subquery bertingkat yang tidak teratur. Pemformatan dengan indentasi yang konsisten mempermudah *code review* dan proses *debugging*.',
+                    ],
+                    [
+                        'heading' => 'Konvensi Huruf Besar untuk Kata Kunci (Keyword Casing)',
+                        'content' => 'Meskipun mesin SQL bersifat *case-insensitive* terhadap kata kunci, standar industri merekomendasikan penulisan kata kunci (seperti <code>SELECT</code>, <code>FROM</code>, <code>WHERE</code>, <code>INNER JOIN</code>) dalam huruf kapital (UPPERCASE) dan nama tabel/kolom dalam huruf kecil (*snake_case*). Konvensi ini langsung membedakan instruksi sintaks dengan identitas data.',
+                    ],
+                ],
+            ],
         ],
         'css-formatter' => [
             'name' => 'CSS Formatter & Minifier',
@@ -112,17 +171,72 @@ return [
             'tagline' => 'Rapikan atau padatkan CSS.',
             'description' => 'Format CSS agar mudah dibaca, atau minify untuk mengecilkan ukuran berkas.',
             'category' => 'Format & Validasi',
-            'keywords' => 'css, css formatter, css minifier, beautify css',
-            'status' => 'planned',
+            'keywords' => 'css, css formatter, css minifier, beautify css, minify css',
+            'status' => 'ready',
+            'view' => 'tools.css-formatter',
+            'script' => 'resources/js/tools/css-formatter.js',
+            'how_to' => [
+                'Tempel kode CSS ke panel <strong>CSS</strong>, atau gunakan <strong>Contoh</strong>.',
+                'Klik <strong>Format</strong> untuk merapikan aturan dan kurung kurawal, atau <strong>Minify</strong> untuk membuang spasi dan komentar.',
+                'Atur tingkat indentasi sesuai standar tim Anda.',
+                'Salin hasilnya atau unduh sebagai berkas <code>.css</code>.',
+            ],
+            'faq' => [
+                ['q' => 'Apakah aturan bersarang seperti @media didukung?', 'a' => 'Ya. Blok aturan di dalam @media, @keyframes, dan @supports diformat dengan indentasi bertingkat yang rapi.'],
+                ['q' => 'Seberapa banyak ukuran CSS yang bisa dihemat dengan Minify?', 'a' => 'Minify menghapus seluruh komentar dan spasi berlebih, biasanya menghemat 20% hingga 50% ukuran berkas mentah.'],
+                ['q' => 'Apakah ada request jaringan saat memformat?', 'a' => 'Tidak. Semua proses parsing dan pemadatan terjadi di memori browser Anda.'],
+            ],
+            'guide' => [
+                'title' => 'Panduan CSS: Format, Minifikasi, dan Pengaruhnya terhadap Web Vitals',
+                'intro' => 'Cascading Style Sheets (CSS) mengatur tata letak, warna, tipografi, dan pengalaman visual antarmuka web. Menjaga CSS tetap terstruktur dan terkompresi sangat penting bagi efisiensi beban kerja peramban.',
+                'sections' => [
+                    [
+                        'heading' => 'Format untuk Pengembangan vs Minify untuk Produksi',
+                        'content' => 'Saat tahap pengembangan (development), CSS terformat dengan indentasi dan jeda baris sangat diperlukan agar mudah dikelola dan ditinjau dalam kontrol versi (Git). Namun untuk tahap produksi (production), CSS wajib di-minify: menghapus komentar, spasi ekstra, dan titik koma mubazir guna memangkas ukuran berkas yang dikirim melalui jaringan.',
+                    ],
+                    [
+                        'heading' => 'Dampak Ukuran CSS terhadap First Contentful Paint (FCP)',
+                        'content' => 'CSS adalah sumber daya pemblokir render (*render-blocking resource*). Peramban web tidak akan merender halaman sampai berkas CSS selesai diunduh dan diproses menjadi CSSOM. Memadatkan CSS secara langsung mempercepat metrik Core Web Vitals, khususnya <strong>First Contentful Paint (FCP)</strong> dan <strong>Largest Contentful Paint (LCP)</strong>.',
+                    ],
+                ],
+            ],
         ],
         'javascript-formatter' => [
             'name' => 'JavaScript Formatter & Minifier',
             'short_name' => 'JS Formatter',
             'tagline' => 'Rapikan JavaScript tanpa mengubah perilakunya.',
-            'description' => 'Format dan minify JavaScript langsung di browser.',
+            'description' => 'Format, validasi sintaks, dan minify JavaScript langsung di browser.',
             'category' => 'Format & Validasi',
-            'keywords' => 'javascript, js formatter, js beautifier, minify javascript',
-            'status' => 'planned',
+            'keywords' => 'javascript, js formatter, js beautifier, minify javascript, js validator',
+            'status' => 'ready',
+            'view' => 'tools.javascript-formatter',
+            'script' => 'resources/js/tools/javascript-formatter.js',
+            'how_to' => [
+                'Tempel skrip JavaScript ke panel <strong>JavaScript</strong>.',
+                'Klik <strong>Format</strong> untuk merapikan indentasi blok kurung kurawal.',
+                'Klik <strong>Validasi</strong> untuk mendeteksi kesalahan sintaks kode tanpa menjalankannya.',
+                'Klik <strong>Minify</strong> bila ingin membuang komentar dan memadatkan kode untuk produksi.',
+                'Salin atau unduh berkas <code>.js</code> yang sudah selesai.',
+            ],
+            'faq' => [
+                ['q' => 'Apakah kode JavaScript saya dieksekusi di browser?', 'a' => 'Tidak. Validasi hanya memeriksa pohon parsing sintaks tanpa memicu eksekusi logika aplikasi Anda.'],
+                ['q' => 'Apakah template string dan komentar aman?', 'a' => 'Ya. Tokenizer mempertahankan literal string template, kutip, dan regex tanpa merusak isinya.'],
+                ['q' => 'Apakah data kode dikirim ke server?', 'a' => 'Sama sekali tidak. Prosesnya 100% lokal di browser pengguna.'],
+            ],
+            'guide' => [
+                'title' => 'Panduan JavaScript Formatter: Keterbacaan Kode dan Validasi Sintaks',
+                'intro' => 'JavaScript adalah bahasa pemrograman dinamis utama yang menggerakkan interaktivitas web modern. Pemformatan kode yang rapi dan deteksi dini galat sintaks mencegah bug yang sulit dilacak di lingkungan produksi.',
+                'sections' => [
+                    [
+                        'heading' => 'Struktur Blok dan Hierarki Indentasi',
+                        'content' => 'Kode JavaScript yang bersih mengandalkan indentasi konsisten (umumnya 2 atau 4 spasi) untuk setiap blok kurung kurawal (fungsi, kondisional <code>if/else</code>, perulangan <code>for/while</code>, dan deklarasi kelas). Hal ini mencegah kebingungan cakupan variabel (*variable scope*) dan penutupan fungsi (*closure*).',
+                    ],
+                    [
+                        'heading' => 'Validasi Sintaks Tanpa Eksekusi (Safe AST Parsing)',
+                        'content' => 'Banyak tool online yang salah mengevaluasi JavaScript menggunakan <code>eval()</code>, yang berisiko mengeksekusi kode berbahaya. Tool FormatKit menggunakan validasi deklaratif yang hanya memeriksa validitas pohon sintaks tanpa pernah mengeksekusi perintah di dalam memori, sehingga aman untuk menguji potongan kode apa pun.',
+                    ],
+                ],
+            ],
         ],
 
         'base64' => [
@@ -147,6 +261,20 @@ return [
                 ['q' => 'Apa itu Base64 URL-safe?', 'a' => 'Varian yang mengganti + menjadi -, / menjadi _, dan menghapus padding =, supaya aman dipakai di dalam URL atau nama berkas.'],
                 ['q' => 'Apakah teks saya dikirim ke server?', 'a' => 'Tidak. Encode dan decode memakai fungsi bawaan browser (btoa/atob), jadi tidak ada data yang keluar dari perangkat Anda.'],
             ],
+            'guide' => [
+                'title' => 'Panduan Base64: Skema Encoding Biner ke Teks (RFC 4648)',
+                'intro' => 'Base64 adalah kelompok skema encoding biner-ke-teks yang merepresentasikan data biner dalam urutan karakter ASCII menggunakan 64 simbol terpilih.',
+                'sections' => [
+                    [
+                        'heading' => 'Cara Kerja Konversi 3 Byte Menjadi 4 Karakter',
+                        'content' => 'Sesuai spesifikasi <code>RFC 4648</code>, Base64 mengambil setiap 3 byte (24 bit) data biner dan membaginya menjadi 4 kelompok 6-bit. Setiap nilai 6-bit (bernilai antara 0 hingga 63) dipetakan ke dalam karakter alfabet (A-Z, a-z, 0-9, serta tanda + dan /). Jika total byte tidak kelipatan 3, karakter padding <code>=</code> ditambahkan di akhir.',
+                    ],
+                    [
+                        'heading' => 'Apa Itu Varian Base64 URL-Safe?',
+                        'content' => 'Karakter standar <code>+</code> dan <code>/</code> memiliki arti khusus dalam query string URL dan nama berkas. Varian <strong>URL-Safe</strong> mengganti <code>+</code> dengan tanda hubung <code>-</code>, <code>/</code> dengan garis bawah <code>_</code>, dan membuang padding <code>=</code>. Varian ini lazim dipakai pada JSON Web Token (JWT) dan webhook payload.',
+                    ],
+                ],
+            ],
         ],
         'url-encoder' => [
             'name' => 'URL Encode / Decode',
@@ -170,6 +298,20 @@ return [
                 ['q' => 'Decode gagal dengan pesan "escape tidak sah"?', 'a' => 'Artinya ada tanda % yang tidak diikuti dua digit heksadesimal, misalnya "%ZZ" atau "%" di akhir teks.'],
                 ['q' => 'Apakah URL saya dicatat?', 'a' => 'Tidak. Seluruh proses berjalan di browser; tidak ada permintaan jaringan yang membawa isi input Anda.'],
             ],
+            'guide' => [
+                'title' => 'Panduan URL Encoding: Persen-Encoding Standar RFC 3986',
+                'intro' => 'URL Encoding (atau Percent-Encoding) adalah mekanisme untuk mengodekan informasi di dalam Uniform Resource Identifier (URI) agar tidak disalahartikan oleh server atau protokol internet.',
+                'sections' => [
+                    [
+                        'heading' => 'Perbedaan encodeURI vs encodeURIComponent',
+                        'content' => 'Fungsi <code>encodeURI</code> digunakan untuk meng-encode URL utuh karena membiarkan karakter pemisah protokol seperti <code>:</code>, <code>/</code>, <code>?</code>, dan <code>#</code> tetap apa adanya. Sebaliknya, <code>encodeURIComponent</code> meng-encode semua karakter khusus termasuk pemisah tersebut, sehingga wajib digunakan saat menyisipkan satu nilai parameter ke dalam query string.',
+                    ],
+                    [
+                        'heading' => 'Kenapa Spasi Menjadi %20 atau +?',
+                        'content' => 'Sesuai standar resmi <code>RFC 3986</code>, representasi spasi adalah <code>%20</code>. Tanda <code>+</code> hanya merupakan konvensi lama pengiriman formulir HTML tipe <code>application/x-www-form-urlencoded</code> dan sering memicu bug jika digunakan sembarangan di luar pengiriman form web.',
+                    ],
+                ],
+            ],
         ],
         'html-entities' => [
             'name' => 'HTML Entity Encode / Decode',
@@ -192,6 +334,20 @@ return [
                 ['q' => 'Entitas apa saja yang bisa di-decode?', 'a' => 'Sekitar 45 entitas bernama yang umum dipakai, ditambah semua referensi numerik desimal (&#38;) maupun heksadesimal (&#x26;).'],
                 ['q' => 'Apakah markup yang ditempel bisa dieksekusi?', 'a' => 'Tidak. Decode memakai peta entitas, bukan parser DOM, jadi tidak ada script atau tag yang dijalankan.'],
                 ['q' => 'Teks saya dikirim ke server?', 'a' => 'Tidak. Prosesnya murni di browser tanpa permintaan jaringan.'],
+            ],
+            'guide' => [
+                'title' => 'Panduan Entitas HTML: Mencegah XSS dan Menjaga Integritas Markup',
+                'intro' => 'Entitas HTML adalah potongan teks khusus yang dipakai untuk menampilkan karakter reservasi atau karakter tak terlihat di halaman web tanpa memicu perenderan tag oleh peramban.',
+                'sections' => [
+                    [
+                        'heading' => 'Peran Entitas dalam Mencegah Serangan XSS',
+                        'content' => 'Cross-Site Scripting (XSS) terjadi saat input pengguna yang tidak disanitasi dirender langsung sebagai markup HTML. Mengonversi karakter berbahaya seperti <code>&lt;</code> menjadi <code>&amp;lt;</code> dan <code>&gt;</code> menjadi <code>&amp;gt;</code> memastikan peramban menampilkan karakter tersebut sebagai teks biasa, bukan sebagai eksekusi skrip.',
+                    ],
+                    [
+                        'heading' => 'Entitas Bernama vs Referensi Karakter Numerik',
+                        'content' => 'Entitas bernama seperti <code>&amp;copy;</code> (&copy;) atau <code>&amp;euro;</code> (&euro;) mudah dihafal oleh manusia. Namun dalam lingkungan encoding lama atau pertukaran data lintas sistem, referensi karakter numerik desimal (seperti <code>&amp;#169;</code>) atau heksadesimal (<code>&amp;#xA9;</code>) lebih aman dan memiliki dukungan universal.',
+                    ],
+                ],
             ],
         ],
         'jwt-decoder' => [
@@ -235,6 +391,20 @@ return [
                 ['q' => 'Apakah berkas yang saya pilih diunggah?', 'a' => 'Tidak. Berkas dibaca di memori browser dan hanya dipakai untuk menghitung hash di perangkat Anda.'],
                 ['q' => 'Bisakah menghitung banyak berkas sekaligus?', 'a' => 'Belum. Untuk sekarang satu teks atau satu berkas per perhitungan.'],
             ],
+            'guide' => [
+                'title' => 'Panduan Hash Kriptografis: Perbedaan MD5, SHA-1, SHA-256, dan SHA-512',
+                'intro' => 'Fungsi hash kriptografis adalah algoritma matematika satu arah yang mengubah input teks atau berkas berukuran apa pun menjadi string berkarakter acak dengan panjang tetap.',
+                'sections' => [
+                    [
+                        'heading' => 'Karakteristik Utama Fungsi Hash',
+                        'content' => 'Fungsi hash memiliki sifat deterministik (input yang sama selalu menghasilkan hash yang identik), efek *avalanche* (perubahan 1 huruf pada input mengubah total hasil hash), dan bersifat satu arah (mustahil mengembalikan hash menjadi teks asli tanpa *brute force*).',
+                    ],
+                    [
+                        'heading' => 'Kapan MD5 Masih Boleh Digunakan dan Kapan Harus Dihindari?',
+                        'content' => 'MD5 dan SHA-1 sudah terbukti rentan terhadap serangan tabrakan (*collision attack*) sehingga <strong>sangat dilarang</strong> untuk keamanan, tanda tangan digital, atau enkripsi kata sandi. Namun, MD5 masih sangat cepat dan praktis dipakai sebagai *checksum* integritas berkas unduhan atau pengelompokan cache.',
+                    ],
+                ],
+            ],
         ],
         'hmac-generator' => [
             'name' => 'HMAC Generator',
@@ -267,6 +437,20 @@ return [
                 ['q' => 'Apakah UUID saya dicatat di server?', 'a' => 'Tidak. Semuanya dibuat di browser dan tidak dikirim ke mana pun.'],
                 ['q' => 'Bisakah membuat UUID tanpa tanda hubung?', 'a' => 'Bisa. Centang opsi "tanpa tanda hubung" — berguna untuk nama berkas atau kolom database bertipe string 32 karakter.'],
             ],
+            'guide' => [
+                'title' => 'Panduan UUID: Spesifikasi RFC 9562, Perbedaan UUID v4 vs UUID v7',
+                'intro' => 'Universally Unique Identifier (UUID) adalah string 128-bit berstandar internasional yang dirancang untuk mengidentifikasi data secara unik di seluruh sistem terdistribusi tanpa koordinasi terpusat.',
+                'sections' => [
+                    [
+                        'heading' => 'Kelemahan UUID v4 pada Database Relasional',
+                        'content' => 'UUID v4 murni mengandalkan 122 bit angka acak. Saat digunakan sebagai kunci utama (*primary key*) pada database dengan indeks B-Tree (seperti InnoDB di MySQL atau PostgreSQL), sifat acak v4 menyebabkan fragmentasi halaman disk (*page split*) yang parah karena data baru disisipkan secara acak di tengah-tengah pohon indeks.',
+                    ],
+                    [
+                        'heading' => 'Mengapa UUID v7 Menjadi Standar Baru?',
+                        'content' => 'Diresmikan dalam <code>RFC 9562</code>, UUID v7 menyematkan *timestamp* Unix milidetik pada 48 bit pertama, diikuti angka acak pada bit sisanya. Hasilnya adalah UUID yang <strong>terurut menurut waktu (time-ordered)</strong>, menghasilkan efisiensi indeks basis data yang setara dengan auto-increment integer tradisional.',
+                    ],
+                ],
+            ],
         ],
         'cron-generator' => [
             'name' => 'Cron Expression Generator',
@@ -279,13 +463,41 @@ return [
         ],
 
         'csv-to-json' => [
-            'name' => 'CSV ke JSON',
-            'short_name' => 'CSV → JSON',
-            'tagline' => 'Ubah CSV menjadi array JSON.',
-            'description' => 'Konversi CSV ke JSON dengan pilihan pemisah kolom, baris judul, dan tipe data.',
+            'name' => 'CSV ke JSON / JSON ke CSV Converter',
+            'short_name' => 'CSV ⇄ JSON',
+            'tagline' => 'Konversi CSV ke JSON dan sebaliknya.',
+            'description' => 'Konversi dua arah CSV ke JSON dan JSON ke CSV dengan standar RFC 4180, deteksi pemisah otomatis, dan parsing tipe data.',
             'category' => 'Konversi Data',
-            'keywords' => 'csv to json, konversi csv, csv converter',
-            'status' => 'planned',
+            'keywords' => 'csv to json, json to csv, konversi csv, csv converter, rfc 4180',
+            'status' => 'ready',
+            'view' => 'tools.csv-to-json',
+            'script' => 'resources/js/tools/csv-to-json.js',
+            'how_to' => [
+                'Tempel data CSV atau JSON ke panel <strong>Input</strong>.',
+                'Klik <strong>CSV → JSON</strong> untuk mengubah CSV menjadi array JSON, atau <strong>JSON → CSV</strong> untuk mengubah JSON menjadi tabel CSV.',
+                'Pilih pemisah kolom (Koma, Titik koma, Tab, atau Pipe) jika ingin menentukan pemisah tertentu.',
+                'Centang <strong>Baris 1 Header</strong> agar baris pertama menjadi nama kunci objek JSON.',
+                'Salin hasil atau unduh sebagai berkas <code>.json</code> atau <code>.csv</code>.',
+            ],
+            'faq' => [
+                ['q' => 'Apakah format CSV dengan tanda kutip ganda dan baris baru didukung?', 'a' => 'Ya. Parser ini sepenuhnya mematuhi RFC 4180 sehingga tanda kutip ganda di dalam data (""teks"") dan baris baru dalam kutip ditangani dengan benar.'],
+                ['q' => 'Bagaimana jika CSV memakai pemisah titik koma (;)?', 'a' => 'Pilih opsi "Otomatis" atau tentukan pemisah "Titik Koma (;)" pada menu dropdown pemisah.'],
+                ['q' => 'Apakah data tabel saya aman dari kebocoran?', 'a' => 'Sangat aman. Pemrosesan CSV dan JSON sepenuhnya berlangsung di perangkat Anda tanpa ada pengiriman data ke server mana pun.'],
+            ],
+            'guide' => [
+                'title' => 'Panduan Konversi CSV & JSON: Standar RFC 4180 dan Pemetaan Tabel',
+                'intro' => 'CSV (Comma-Separated Values) adalah format tabular berbasis baris untuk data lembar sebar (*spreadsheet*), sedangkan JSON adalah format pohon hierarkis standar untuk pertukaran data API.',
+                'sections' => [
+                    [
+                        'heading' => 'Aturan Kritis Tanda Kutip dalam Standar RFC 4180',
+                        'content' => 'Sebuah field dalam CSV wajib diapit tanda kutip ganda jika mengandung karakter pemisah (koma), baris baru (CRLF), atau tanda kutip itu sendiri. Jika di dalam nilai terdapat tanda kutip ganda asli, ia harus ditulis ganda berturut-turut (misalnya: <code>"Budi ""Pro"" Abdullah"</code>).',
+                    ],
+                    [
+                        'heading' => 'Deteksi Pemisah Koma (,) vs Titik Koma (;)',
+                        'content' => 'Di negara-negara Eropa dan sistem operasi berbahasa Indonesia yang menggunakan koma sebagai pemisah desimal, Microsoft Excel sering mengekspor CSV menggunakan pemisah titik koma (<code>;</code>). Tool FormatKit secara cerdas mendeteksi pemisah yang dominan agar data tabel tidak salah terpecah.',
+                    ],
+                ],
+            ],
         ],
         'json-to-yaml' => [
             'name' => 'JSON ke YAML',
@@ -319,19 +531,82 @@ return [
             'name' => 'Penghitung Kata & Pengubah Kapitalisasi',
             'short_name' => 'Word Counter',
             'tagline' => 'Hitung kata, karakter, dan ubah besar-kecil huruf.',
-            'description' => 'Hitung jumlah kata, karakter, dan paragraf, sekaligus ubah teks ke huruf besar, kecil, judul, atau slug.',
+            'description' => 'Hitung jumlah kata, karakter, kalimat, dan paragraf, plus ubah teks ke huruf besar, kecil, judul, camelCase, atau slug.',
             'category' => 'Teks & Utilitas',
-            'keywords' => 'word counter, karakter, case converter, hitung kata',
-            'status' => 'planned',
+            'keywords' => 'word counter, karakter, case converter, hitung kata, penghitung kata, slug generator',
+            'status' => 'ready',
+            'view' => 'tools.word-counter',
+            'script' => 'resources/js/tools/word-counter.js',
+            'how_to' => [
+                'Ketik atau tempel teks ke panel <strong>Teks Asli</strong>.',
+                'Lihat statistik kata, karakter, kalimat, paragraf, dan estimasi waktu baca secara langsung di bagian atas.',
+                'Klik tombol format kasus seperti <strong>UPPERCASE</strong>, <strong>Title Case</strong>, <strong>camelCase</strong>, atau <strong>kebab-case</strong> untuk mengubah gaya teks.',
+                'Klik <strong>Salin hasil</strong> untuk menggunakan teks hasil modifikasi.',
+            ],
+            'faq' => [
+                ['q' => 'Bagaimana waktu baca dan waktu bicara dihitung?', 'a' => 'Estimasi waktu baca menggunakan acuan rata-rata 200 kata per menit, sedangkan waktu bicara menggunakan acuan 130 kata per menit.'],
+                ['q' => 'Apakah teks non-Latin atau beraksara khusus didukung?', 'a' => 'Ya. Algoritma penghitung kata mengenali batas kata Unicode secara akurat, termasuk aksara beraksen dan tanda hubung.'],
+                ['q' => 'Apakah tulisan saya disimpan?', 'a' => 'Tidak. Dokumen dan teks Anda hanya diproses di browser Anda dan tidak pernah disimpan di server.'],
+            ],
+            'guide' => [
+                'title' => 'Panduan Analisis Teks: Metrik Kata, Segmentasi Karakter, dan Konvensi Casing',
+                'intro' => 'Penghitungan kata dan analisis teks digital memerlukan pemahaman atas cara komputer membedakan kata, karakter beraksara Unicode, estimasi durasi membaca, serta konvensi penamaan dalam pemrograman.',
+                'sections' => [
+                    [
+                        'heading' => 'Segmentasi Batas Kata dan Perhitungan Karakter',
+                        'content' => 'Penghitungan kata tidak sesederhana memisahkan spasi tunggal. Karakter spasi berurutan, baris baru, serta tanda baca harus diabaikan. Selain itu, perhitungan karakter tanpa spasi sangat krusial bagi penulis naskah, penerjemah, dan pemasar digital yang tunduk pada batasan meta deskripsi SEO (155–160 karakter) atau iklan digital.',
+                    ],
+                    [
+                        'heading' => 'Rumus Estimasi Waktu Baca dan Waktu Bicara',
+                        'content' => 'Standar rata-rata kecepatan membaca dalam hati (*silent reading*) orang dewasa berkisar antara 200 hingga 250 kata per menit (WPM). Sedangkan kecepatan berbicara normal dalam pidato atau narasi audio berkisar antara 130 hingga 150 WPM. Metrik ini mempermudah penulis artikel, podcaster, dan pembicara publik memperkirakan durasi presentasi mereka.',
+                    ],
+                    [
+                        'heading' => 'Perbedaan Casing: camelCase, PascalCase, snake_case, dan kebab-case',
+                        'content' => 'Dalam rekayasa perangkat lunak, konversi casing sering dipakai antar bahasa pemrograman. <code>camelCase</code> umum pada variabel JavaScript, <code>PascalCase</code> pada nama kelas PHP/TypeScript, <code>snake_case</code> pada kolom basis data SQL dan kunci JSON, serta <code>kebab-case</code> pada URL slug dan selektor CSS.',
+                    ],
+                ],
+            ],
         ],
         'regex-tester' => [
-            'name' => 'Regex Tester',
+            'name' => 'Regex Tester & Matcher',
             'short_name' => 'Regex Tester',
             'tagline' => 'Uji pola regex beserta grup tangkapannya.',
-            'description' => 'Uji ekspresi reguler terhadap teks contoh, lihat semua kecocokan dan grup tangkapan secara langsung.',
+            'description' => 'Uji ekspresi reguler terhadap teks contoh, periksa flag (g, i, m, s, u), lihat posisi kecocokan, capture groups, dan lakukan penggantian teks.',
             'category' => 'Teks & Utilitas',
-            'keywords' => 'regex, regex tester, regular expression, uji regex',
-            'status' => 'planned',
+            'keywords' => 'regex, regex tester, regular expression, uji regex, regex replace',
+            'status' => 'ready',
+            'view' => 'tools.regex-tester',
+            'script' => 'resources/js/tools/regex-tester.js',
+            'how_to' => [
+                'Ketik pola ekspresi reguler di kolom <strong>Pola Regular Expression</strong>, atau pilih contoh dari dropdown pola populer.',
+                'Centang flag yang diinginkan seperti <strong>g</strong> (global) atau <strong>i</strong> (case-insensitive).',
+                'Tempel teks sampel ke panel input; kecocokan akan langsung dideteksi.',
+                'Klik <strong>Ganti Teks</strong> bila ingin menguji penggantian pola dengan teks baru.',
+                'Salin laporan kecocokan atau unduh hasilnya.',
+            ],
+            'faq' => [
+                ['q' => 'Mesin regex apa yang digunakan?', 'a' => 'Tool ini menggunakan mesin RegExp bawaan browser JavaScript standar yang mendukung lookaround, capture groups bernama, dan flag Unicode.'],
+                ['q' => 'Apa yang terjadi jika pola regex saya salah?', 'a' => 'Pesan kesalahan sintaks resmi akan langsung ditampilkan di panel status sehingga memudahkan pelacakan typo atau tanda kurung yang belum ditutup.'],
+                ['q' => 'Apakah teks saya dikirim ke server?', 'a' => 'Tidak. Semua proses pencocokan berjalan di memori lokal peramban Anda.'],
+            ],
+            'guide' => [
+                'title' => 'Panduan Regular Expression (RegEx): Pola Pencocokan, Flags, dan Optimasi Mesin',
+                'intro' => 'Regular Expression (RegEx) adalah barisan karakter simbolis yang mendefinisikan pola pencarian teks. RegEx dipakai luas dalam validasi formulir input, ekstraksi token log, perayapan data web, dan manipulasi teks kompleks.',
+                'sections' => [
+                    [
+                        'heading' => 'Memahami Flags Penting dalam Mesin RegExp JavaScript',
+                        'content' => 'Ekspresi reguler dipengaruhi oleh flag yang menyertainya: flag <code>g</code> (global) mencocokkan seluruh kemunculan, flag <code>i</code> (ignore case) membuat pencocokan tidak sensitif huruf besar/kecil, flag <code>m</code> (multiline) memperlakukan simbol <code>^</code> dan <code>$</code> sebagai awal dan akhir setiap baris, serta flag <code>s</code> (dotAll) mengizinkan titik (<code>.</code>) mencocokkan karakter baris baru.',
+                    ],
+                    [
+                        'heading' => 'Capture Groups dan Backreferences',
+                        'content' => 'Tanda kurung <code>(...)</code> membentuk *capturing group* yang menangkap teks cocok untuk digunakan kembali pada operasi penggantian (replace) dengan referensi seperti <code>$1</code>, <code>$2</code>. Gunakan <code>(?:...)</code> untuk *non-capturing group* jika grup hanya dibutuhkan sebagai pengelompokan logika tanpa menyimpan hasil tangkapan, demi performa yang lebih optimal.',
+                    ],
+                    [
+                        'heading' => 'Menghindari ReDoS (Regular Expression Denial of Service)',
+                        'content' => 'Hindari pola yang memiliki percabangan bertumpuk (*catastrophic backtracking*) seperti <code>(a+)+$</code> pada input teks yang sangat panjang. Pemrosesan ekspresi reguler FormatKit berjalan sepenuhnya di peramban web sisi klien sehingga aman dari risiko server crashing.',
+                    ],
+                ],
+            ],
         ],
         'xpath-tester' => [
             'name' => 'XPath Tester',

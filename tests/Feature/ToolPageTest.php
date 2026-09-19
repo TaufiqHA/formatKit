@@ -74,3 +74,38 @@ it('returns 404 for tools that are still planned', function () {
 
     $this->get('/'.$plannedSlug)->assertNotFound();
 });
+
+it('renders phase 3 tools with their specialized controls', function () {
+    $this->get('/sql-formatter')
+        ->assertOk()
+        ->assertSee('Query SQL')
+        ->assertSee('Kata Kunci')
+        ->assertSee('Format');
+
+    $this->get('/css-formatter')
+        ->assertOk()
+        ->assertSee('Hasil CSS')
+        ->assertSee('Minify');
+
+    $this->get('/javascript-formatter')
+        ->assertOk()
+        ->assertSee('Validasi')
+        ->assertSee('Hasil JS');
+
+    $this->get('/csv-to-json')
+        ->assertOk()
+        ->assertSee('CSV → JSON')
+        ->assertSee('JSON → CSV');
+
+    $this->get('/word-counter')
+        ->assertOk()
+        ->assertSee('data-stat="words"', false)
+        ->assertSee('data-stat="readingMinutes"', false)
+        ->assertSee('Title Case');
+
+    $this->get('/regex-tester')
+        ->assertOk()
+        ->assertSee('data-option="pattern"', false)
+        ->assertSee('data-flag="g"', false)
+        ->assertSee('Uji Regex');
+});
