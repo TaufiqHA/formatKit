@@ -72,7 +72,11 @@ it('returns 404 for tools that are still planned', function () {
         ->keys()
         ->first();
 
-    $this->get('/'.$plannedSlug)->assertNotFound();
+    if ($plannedSlug) {
+        $this->get('/'.$plannedSlug)->assertNotFound();
+    } else {
+        expect(app(ToolCatalog::class)->plannedCount())->toBe(0);
+    }
 });
 
 it('renders phase 3 tools with their specialized controls', function () {
@@ -140,4 +144,60 @@ it('renders category A, B, and C tools with their specialized controls', functio
         ->assertSee('Periksa Cron')
         ->assertSee('Pilihan Preset')
         ->assertSee('Ekspresi Cron');
+});
+
+it('renders category D, E, and F tools with their specialized controls', function () {
+    $this->get('/json-to-yaml')
+        ->assertOk()
+        ->assertSee('JSON → YAML')
+        ->assertSee('YAML → JSON');
+
+    $this->get('/xml-to-json')
+        ->assertOk()
+        ->assertSee('XML → JSON')
+        ->assertSee('Dokumen XML');
+
+    $this->get('/timestamp-converter')
+        ->assertOk()
+        ->assertSee('Waktu Sekarang')
+        ->assertSee('Konversi');
+
+    $this->get('/xpath-tester')
+        ->assertOk()
+        ->assertSee('Uji XPath')
+        ->assertSee('Ekspresi XPath');
+
+    $this->get('/lorem-ipsum')
+        ->assertOk()
+        ->assertSee('Buat Teks')
+        ->assertSee('Paragraf');
+
+    $this->get('/provinsi-indonesia')
+        ->assertOk()
+        ->assertSee('38 Provinsi')
+        ->assertSee('Cari');
+
+    $this->get('/kode-pos-indonesia')
+        ->assertOk()
+        ->assertSee('Cari Kode Pos')
+        ->assertSee('Kata Kunci');
+
+    $this->get('/mime-types')
+        ->assertOk()
+        ->assertSee('Filter MIME')
+        ->assertSee('Tabel Referensi');
+});
+
+it('renders xsd-to-json-schema and kode-bank-indonesia tools with their specialized controls', function () {
+    $this->get('/xsd-to-json-schema')
+        ->assertOk()
+        ->assertSee('Skema XSD')
+        ->assertSee('JSON Schema')
+        ->assertSee('Konversi XSD ke JSON Schema');
+
+    $this->get('/kode-bank-indonesia')
+        ->assertOk()
+        ->assertSee('Cari Bank')
+        ->assertSee('Daftar Kode Bank di Indonesia')
+        ->assertSee('Daftar Kode Transfer Bank');
 });

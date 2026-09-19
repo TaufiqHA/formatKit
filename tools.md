@@ -1,20 +1,20 @@
 # Daftar & Status Tools FormatKit
 
-Dokumen ini mencatat inventaris seluruh tool yang ada pada FormatKit, mencakup status saat ini, tool yang sudah selesai, tool yang direncanakan (*planned*), serta potensi penambahan fitur masa depan.
+Dokumen ini mencatat inventaris seluruh tool yang ada pada FormatKit, mencakup status saat ini, tool yang sudah selesai, serta potensi penambahan fitur masa depan.
 
 ---
 
 ## 1. Ringkasan Status
 
-- **Total Tools Terdaftar di Katalog (`config/tools.php`):** 26 Tools
-- **Sudah Selesai (`ready`):** 18 Tools (100% MVP Fase 1 + Fase 2 Inti + Tools Kategori A, B, C)
-- **Belum Dibuat (`planned`):** 8 Tools (Tampil di navigasi dengan status/badge "segera", belum ada implementasi view & script)
+- **Total Tools Terdaftar di Katalog (`config/tools.php`):** 28 Tools
+- **Sudah Selesai (`ready`):** 28 Tools (**100% Seluruh Tool Katalog Selesai**)
+- **Roadmap Mendatang (`planned`):** 0 Tools
+
+Semua tool telah memiliki rute aktif, tampilan antarmuka Blade konsisten (gaya neobrutalisme / *bold contrast*), logika pemrosesan lokal di browser (client-side JS), pengujian otomatis, dan terdaftar dalam manifest Vite.
 
 ---
 
-## 2. Tools yang Sudah Selesai (`ready`)
-
-Semua tool di bawah ini telah memiliki route aktif, template Blade di `resources/views/tools/`, dan logika pemrosesan sisi klien (client-side JS) di `resources/js/tools/`:
+## 2. Tools yang Sudah Selesai (`ready` — 28/28)
 
 | No | Nama Tool | Slug | Kategori | Ringkasan Fungsi |
 |---|---|---|---|---|
@@ -34,52 +34,26 @@ Semua tool di bawah ini telah memiliki route aktif, template Blade di `resources
 | 14 | **UUID / GUID Generator** | `uuid-generator` | Hash & Generator | Pembuat UUID v4 (random) dan v7 (time-ordered) bulk |
 | 15 | **Cron Expression Generator** | `cron-generator` | Hash & Generator | Generator ekspresi cron, arti bahasa Indonesia & jadwal berikutnya |
 | 16 | **CSV ⇄ JSON Converter** | `csv-to-json` | Konversi Data | Konversi dua arah CSV ⇄ JSON standar RFC 4180 |
-| 17 | **Penghitung Kata & Case Converter** | `word-counter` | Teks & Utilitas | Statistik kata/karakter & konversi camelCase, kebab-case, dll |
-| 18 | **Regex Tester & Matcher** | `regex-tester` | Teks & Utilitas | Uji ekspresi reguler, capture groups, dan penggantian teks |
+| 17 | **JSON ⇄ YAML Converter** | `json-to-yaml` | Konversi Data | Konversi dua arah JSON ke YAML dan YAML ke JSON |
+| 18 | **XML ke JSON Converter** | `xml-to-json` | Konversi Data | Konversi dokumen XML ke objek JSON hierarkis |
+| 19 | **Konverter XSD ke JSON Schema** | `xsd-to-json-schema` | Konversi Data | Ubah skema XML XSD (element, complexType, sequence) ke JSON Schema Draft-07 |
+| 20 | **Unix Timestamp Converter** | `timestamp-converter` | Konversi Data | Konversi Unix epoch ke ISO, UTC, dan waktu WIB/WITA/WIT |
+| 21 | **Penghitung Kata & Case Converter** | `word-counter` | Teks & Utilitas | Statistik kata/karakter & konversi camelCase, kebab-case, dll |
+| 22 | **Regex Tester & Matcher** | `regex-tester` | Teks & Utilitas | Uji ekspresi reguler, capture groups, dan penggantian teks |
+| 23 | **XPath Tester & Evaluator** | `xpath-tester` | Teks & Utilitas | Uji query XPath terhadap dokumen XML secara interaktif |
+| 24 | **Lorem Ipsum Generator** | `lorem-ipsum` | Teks & Utilitas | Generator teks dummy placeholder (paragraf, kalimat, kata) |
+| 25 | **Daftar Provinsi & Kota Indonesia** | `provinsi-indonesia` | Data Referensi | Direktori 38 provinsi resmi RI ekspor Tabel, JSON, CSV, Select |
+| 26 | **Daftar Kode Pos Indonesia** | `kode-pos-indonesia` | Data Referensi | Direktori pencarian kode pos kota, kecamatan, dan kelurahan |
+| 27 | **Daftar MIME Type Lengkap** | `mime-types` | Data Referensi | Tabel Content-Type lengkap & generator konfigurasi Nginx |
+| 28 | **Daftar Kode Bank di Indonesia** | `kode-bank-indonesia` | Data Referensi | Daftar kode transfer antarbank lengkap (BUMN, Swasta, Digital, BPD) |
 
 ---
 
-## 3. Tools yang Belum Dibuat (`planned`)
+## 3. Ide Tambahan untuk Pengembangan Lanjutan
 
-Berikut adalah 8 tools yang tersisa di katalog konfigurasi [`config/tools.php`](file:///home/padikering/Documents/KERJA/formatKit/config/tools.php) yang masih menunggu implementasi:
+Fitur-fitur masa depan di luar katalog dasar yang bisa dipertimbangkan berdasarkan riset pasar:
 
-### D. Konversi Data
-* **JSON ke YAML / YAML ke JSON** (`json-to-yaml`)
-  * **Tagline:** Ubah JSON menjadi YAML yang rapi.
-  * **Deskripsi:** Konversi bolak-balik antara struktur JSON dan dokumen YAML tanpa merusak hierarki data.
-* **XML ke JSON** (`xml-to-json`)
-  * **Tagline:** Ubah dokumen XML menjadi JSON.
-  * **Deskripsi:** Konversi dokumen XML ke format JSON terstruktur dengan penanganan atribut dan namespace.
-* **Unix Timestamp Converter** (`timestamp-converter`)
-  * **Tagline:** Ubah epoch ke tanggal dan sebaliknya.
-  * **Deskripsi:** Konversi nilai Unix timestamp (detik/milidetik) ke format tanggal ISO dan waktu lokal Indonesia (WIB, WITA, WIT), serta sebaliknya.
-
-### E. Teks & Utilitas
-* **XPath Tester** (`xpath-tester`)
-  * **Tagline:** Cari node XML dengan ekspresi XPath.
-  * **Deskripsi:** Uji query ekspresi XPath terhadap dokumen XML dan visualisasikan daftar node yang cocok.
-* **Lorem Ipsum Generator** (`lorem-ipsum`)
-  * **Tagline:** Teks contoh untuk tata letak.
-  * **Deskripsi:** Buat teks *dummy* dalam satuan kata, kalimat, atau paragraf untuk pengujian layout desain.
-
-### F. Data Referensi (Lokal & Spesifik)
-* **Daftar Provinsi & Kota di Indonesia** (`provinsi-indonesia`)
-  * **Tagline:** Daftar provinsi dan kabupaten/kota siap salin.
-  * **Deskripsi:** Kumpulan data wilayah Indonesia (Provinsi, Kabupaten/Kota, Kecamatan) dalam format Tabel, JSON, CSV, dan tag `<select>` HTML.
-* **Daftar Kode Pos Indonesia** (`kode-pos-indonesia`)
-  * **Tagline:** Cari kode pos berdasarkan wilayah.
-  * **Deskripsi:** Direktori pencarian kode pos di seluruh wilayah Indonesia.
-* **Daftar MIME Type** (`mime-types`)
-  * **Tagline:** Tabel MIME type untuk konfigurasi berkas.
-  * **Deskripsi:** Referensi lengkap Content-Type / MIME type beserta ekstensi berkas untuk konfigurasi web server dan HTTP header.
-
----
-
-## 4. Ide Tambahan dari Riset Kompetitor (Belum Masuk Katalog)
-
-Fitur bernilai tinggi yang diidentifikasi dalam dokumen [`analisis-kompetitor.md`](file:///home/padikering/Documents/KERJA/formatKit/analisis-kompetitor.md) dengan tingkat persaingan rendah di Indonesia:
-
-1. **Konverter XSD / JSON Schema:** Mengisi celah yang ditinggalkan FreeFormatter.
-2. **Daftar Kode Bank Indonesia:** Tabel kode transfer antarbank (BCA, Mandiri, BRI, BNI, bank digital, dll) siap pakai.
-3. **Format & Validator NIK / NPWP:** Penjelasan struktur digit dan pengecekan format resmi identitas pajak/kependudukan lokal.
-4. **Time Zone Converter Indonesia:** Konversi zona waktu UTC / GMT ke WIB, WITA, WIT.
+1. **Validator & Generator NIK / NPWP:** Validasi struktur nomor identitas kependudukan dan perpajakan Indonesia.
+2. **Kalkulator Subnet / CIDR IP:** Utilitas kalkulasi netmask dan IP range untuk network engineer.
+3. **Markdown to HTML / HTML to Markdown:** Konversi dua arah dokumen Markdown dan HTML lengkap dengan preview.
+4. **Color Palette & Contrast Checker:** Generator palet warna hex/hsl/rgb dan uji rasio kontras WCAG AA/AAA.

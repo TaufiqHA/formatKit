@@ -19,13 +19,15 @@
 
     <div @class(['grid gap-0', 'lg:grid-cols-2' => ! $outputOnly])>
         @unless ($outputOnly)
-            <div class="border-ink p-4 lg:border-r-3">
-                <label for="tool-input" class="flex items-center justify-between gap-2 font-mono text-xs font-bold uppercase tracking-widest">
-                    {{ $inputLabel }}
+            <div class="flex flex-col border-ink p-4 lg:border-r-3">
+                <div class="flex min-h-7 items-center justify-between gap-2">
+                    <label for="tool-input" class="shrink-0 font-mono text-xs font-bold uppercase tracking-widest">
+                        {{ $inputLabel }}
+                    </label>
                     @if ($inputHint)
-                        <span class="normal-case tracking-normal text-ink-soft">{{ $inputHint }}</span>
+                        <span class="truncate text-right text-xs normal-case tracking-normal text-ink-soft" title="{{ $inputHint }}">{{ $inputHint }}</span>
                     @endif
-                </label>
+                </div>
                 <textarea id="tool-input"
                           data-tool-input
                           rows="{{ $rows }}"
@@ -33,14 +35,14 @@
                           autocomplete="off"
                           autocapitalize="off"
                           placeholder="{{ $placeholder }}"
-                          class="code-area mt-2 min-h-72 w-full resize-y border-3 border-ink bg-paper p-3 focus:bg-white">{{ $input ?? '' }}</textarea>
+                          class="code-area mt-2 min-h-72 w-full flex-1 resize-y border-3 border-ink bg-paper p-3 focus:bg-white">{{ $input ?? '' }}</textarea>
             </div>
         @endunless
 
-        <div class="p-4">
-            <div class="flex items-center justify-between gap-2">
-                <label for="tool-output" class="font-mono text-xs font-bold uppercase tracking-widest">{{ $outputLabel }}</label>
-                <span data-tool-stats class="font-mono text-xs text-ink-soft">0 baris · 0 byte</span>
+        <div class="flex flex-col p-4">
+            <div class="flex min-h-7 items-center justify-between gap-2">
+                <label for="tool-output" class="shrink-0 font-mono text-xs font-bold uppercase tracking-widest">{{ $outputLabel }}</label>
+                <span data-tool-stats class="shrink-0 font-mono text-xs text-ink-soft">0 baris · 0 byte</span>
             </div>
             <textarea id="tool-output"
                       data-tool-output
@@ -48,7 +50,7 @@
                       readonly
                       spellcheck="false"
                       aria-label="{{ $outputLabel }}"
-                      class="code-area mt-2 min-h-72 w-full resize-y border-3 border-ink bg-paper-dim p-3">{{ $output ?? '' }}</textarea>
+                      class="code-area mt-2 min-h-72 w-full flex-1 resize-y border-3 border-ink bg-paper-dim p-3">{{ $output ?? '' }}</textarea>
 
             @if ($outputNote)
                 <p class="mt-2 text-xs text-ink-soft">{{ $outputNote }}</p>
